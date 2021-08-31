@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: http://petstore.swagger.io/v1
+  - url: http://localhost:8080/v1
 info:
   version: "1"
   title: "demo petstore API"
@@ -32,18 +32,18 @@ paths:
     post:
       operationId: createPet
       x-scala-package: pet
+      parameters:
+        - in: header
+          name: requestId
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
-              properties:
-                name:
-                  type: string
-                status:
-                  type: string
-              required:
-                - name
+              $ref: "#/components/schemas/Pet"
       responses:
         "200":
           description: ""
@@ -51,6 +51,12 @@ paths:
             "application/json":
               schema:
                 $ref: "#/components/schemas/Pet"
+        400:
+          description: "Bad Request, response body contains error detail"
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ApiError"
 components:
   schemas:
     Pet:
@@ -60,5 +66,23 @@ components:
       properties:
         name:
           type: string
+          description: "the pet name"
+          example: "fido"
         status:
           type: string
+          example: "OK"
+    ApiError:
+      type: object
+      required:
+        - code
+        - description
+      properties:
+        code:
+          type: string
+          description: "the error code"
+          example: "MT001"
+        description:
+          type: string
+          description: "This is a human comprehensible phrase that describe the error"
+          example: "missing parameter page"
+

@@ -13,8 +13,10 @@ object App extends App {
   val routes = PetResource.routes(new PetHandler {
     override def updatePet(respond: PetResource.UpdatePetResponse.type)(name: String, body: Pet): Future[PetResource.UpdatePetResponse] =
       Future.successful(respond.OK(body))
-    override def createPet(respond: PetResource.CreatePetResponse.type)(name: String, status: Option[String]): Future[PetResource.CreatePetResponse] =
-      Future.successful(respond.OK(Pet(name, status)))
+
+    override def createPet(respond: PetResource.CreatePetResponse.type)(body: Pet, requestId: String): Future[PetResource.CreatePetResponse] = Future.successful {
+      PetService.createPet(body, requestId).fold(respond.BadRequest, respond.OK)
+    }
   })
 
   Await.result(Http().newServerAt("127.0.0.1", 8080).bindFlow(routes), Duration.Inf)

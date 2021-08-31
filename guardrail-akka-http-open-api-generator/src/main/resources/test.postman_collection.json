@@ -9,21 +9,24 @@
 			"name": "post pet",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "requestId",
+						"value": "OK",
+						"description": "for happy path",
+						"type": "text"
+					},
+					{
+						"key": "requestId",
+						"value": "KO",
+						"description": "for failure test",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "name",
-							"value": "pippo",
-							"type": "text"
-						},
-						{
-							"key": "status",
-							"value": "OK",
-							"type": "text"
-						}
-					],
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"pippo\", \n    \"status\": \"OK\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
