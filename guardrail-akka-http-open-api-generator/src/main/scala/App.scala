@@ -1,7 +1,7 @@
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import foo.definitions.Pet
-import foo.pet.{PetHandler, PetResource}
+import com.github.microhatesyou.generated.definitions.Pet
+import com.github.microhatesyou.generated.pet.{PetHandler, PetResource}
 
 import scala.concurrent._
 import scala.concurrent.duration.Duration
@@ -17,6 +17,7 @@ object App extends App {
     override def createPet(respond: PetResource.CreatePetResponse.type)(body: Pet, requestId: String): Future[PetResource.CreatePetResponse] = Future.successful {
       PetService.createPet(body, requestId).fold(respond.BadRequest, respond.OK)
     }
+
   })
 
   Await.result(Http().newServerAt("127.0.0.1", 8080).bindFlow(routes), Duration.Inf)

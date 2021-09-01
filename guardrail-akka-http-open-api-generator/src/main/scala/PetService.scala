@@ -1,4 +1,4 @@
-import foo.definitions.{ApiError, Pet}
+import com.github.microhatesyou.generated.definitions.{ApiError, Pet}
 
 object PetService {
 

@@ -1,7 +1,7 @@
 Compile / guardrailTasks := List(
   ScalaServer(
     specPath = (Compile / resourceDirectory).value / "petstore.yaml",
-    pkg = "foo",
+    pkg = "com.github.microhatesyou.generated",
     tracing = false
   )
 )
