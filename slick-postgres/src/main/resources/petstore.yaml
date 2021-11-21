@@ -1,0 +1,74 @@
+openapi: 3.0.0
+servers:
+  - url: http://localhost:8080/v1
+info:
+  version: "1"
+  title: "demo petstore API"
+paths:
+  /pets:
+    get:
+      operationId: getPets
+      x-scala-package: pet
+      responses:
+        "200":
+          description: ""
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
+    post:
+      operationId: createPet
+      x-scala-package: pet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: ""
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Pet"
+        400:
+          description: "Bad Request, response body contains error detail"
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ApiError"
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          type: string
+          description: "the pet UUID"
+        name:
+          type: string
+          description: "the pet name"
+          example: "fido"
+        status:
+          type: string
+          example: "OK"
+    ApiError:
+      type: object
+      required:
+        - code
+        - description
+      properties:
+        code:
+          type: string
+          description: "the error code"
+          example: "MT001"
+        description:
+          type: string
+          description: "This is a human comprehensible phrase that describe the error"
+          example: "missing parameter page"
+
